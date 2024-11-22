@@ -12,14 +12,14 @@ if __name__ == "__main__":
 
     # fit linear regression
     modified_X = sm.add_constant(data=X)  # Add constant to estimate the intercept
-    model = sm.OLS(y, modified_X).fit()
+    model = sm.OLS(endog=y, exog=modified_X).fit()
 
     # print results summary
     print(model.summary())
 
     # retrieving regression line
-    preds = model.fittedvalues
-    # preds = model.predict(X) # both works
+    # preds = model.fittedvalues
+    preds = model.predict(modified_X)  # both works
 
     plot_data(X=X, y=y, colors=colors, preds=preds)
 

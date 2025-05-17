@@ -6,8 +6,8 @@ from artefacts.hypothesis_testing.data.input_parameters import (
     TtestInputTestParameters,
     AlternativeStudentHypothesis,
 )
-from artefacts.hypothesis_testing.statistical_tests.mann_whitney import MannWhitneyTest
-from artefacts.hypothesis_testing.statistical_tests.t_test import Ttest
+from artefacts.hypothesis_testing.statistical_tests.types.mann_whitney import MannWhitneyTest
+from artefacts.hypothesis_testing.statistical_tests.types.t_test import Ttest
 
 
 class TestStatArtifacts:

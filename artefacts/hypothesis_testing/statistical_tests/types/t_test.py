@@ -28,9 +28,13 @@ class Ttest(InterfaceStatsTest):
         """
         Fit the t-test.
 
-        X (ArrayLike): The first sample.
-        y (ArrayLike): The second sample.
-        threshold (float): The threshold to reject the null hypothesis.
+        Args:
+            X (ArrayLike): The first sample.
+            y (ArrayLike): The second sample.
+            threshold (float): The threshold to reject the null hypothesis.
+
+        Returns:
+            Ttest: The fitted t-test.
         """
 
         from scipy.stats import ttest_ind

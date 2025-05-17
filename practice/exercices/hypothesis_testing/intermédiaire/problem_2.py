@@ -5,5 +5,5 @@ if __name__ == "__main__":
     sample = problem.get_data()
     print(problem.problem_statement)
 
-    print(problem.get_hints())  # if you need hints
+    # print(problem.get_hints())  # if you need hints
     # your code here

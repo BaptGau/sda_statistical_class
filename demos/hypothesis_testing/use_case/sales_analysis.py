@@ -3,7 +3,7 @@ import seaborn as sns
 from numpy._typing import ArrayLike
 from scipy.stats import ttest_ind
 
-from artefacts.hypothesis_testing.statistical_tests.t_test import Ttest
+from artefacts.hypothesis_testing.statistical_tests.types.t_test import Ttest
 from demos.utlis import setup_plot
 from mocks.hypothesis_testing.hypothesis_testing_mocks import mock_problems
 

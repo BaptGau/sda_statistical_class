@@ -1,7 +1,7 @@
 import numpy as np
 
 from artefacts.hypothesis_testing.data.input_parameters import TtestInputTestParameters
-from artefacts.hypothesis_testing.statistical_tests.t_test import Ttest
+from artefacts.hypothesis_testing.statistical_tests.types.t_test import Ttest
 from mocks.hypothesis_testing.hypothesis_testing_mocks import mock_problems
 from practice.solutions.hypothesis_testing.utils.plotter import plot_two_samples
 

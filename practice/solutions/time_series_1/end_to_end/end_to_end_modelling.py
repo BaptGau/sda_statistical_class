@@ -94,7 +94,7 @@ def validation(data: pd.DataFrame):
         color=colors[3],
     )
     plt.legend()
-    plt.grid()
+    plt.grid(True)
     plt.show()
 
     print_model_performance(

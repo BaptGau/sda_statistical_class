@@ -27,6 +27,6 @@ def plot_preds_results(
             ls=style[idx],
         )
     plt.legend()
-    plt.grid()
+    plt.grid(True)
     plt.title("Differentiated CO₂ Levels Over Time (Monthly) & Predictions")
     plt.show()

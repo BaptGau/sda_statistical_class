@@ -59,7 +59,7 @@ def plot_homoscedasticity(residuals: DataFrame, preds: DataFrame, colors: list[s
 
 def plot_residuals_autocorrelation(residuals: DataFrame):
     sm.graphics.tsa.plot_acf(residuals, lags=40, title="Autocorrélation des résidus")
-    plt.grid()
+    plt.grid(True)
     plt.show()
 
 

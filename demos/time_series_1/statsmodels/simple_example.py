@@ -17,7 +17,7 @@ if __name__ == "__main__":
             ARIMA(order=(3, 1, 1), seasonal_order=(1, 1, 1), season_length=12),
             Holt(season_length=12),
         ],
-        freq="ME",
+        freq="M"
     )
 
     sf.fit(df)
@@ -30,6 +30,6 @@ if __name__ == "__main__":
     # plt.plot(preds.ds, preds.ARIMA, label="Predicted", color=colors[1])
     #
     # plt.legend()
-    # plt.grid()
+    # plt.grid(True)
     # plt.title("AirPassengers ARIMA forecast")
     # plt.show()

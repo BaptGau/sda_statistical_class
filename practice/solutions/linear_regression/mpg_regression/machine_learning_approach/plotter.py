@@ -69,7 +69,7 @@ def plot_results_with_mapie(X_test, y_test, pipeline, colors: list[str]):
     plt.xlabel("Actual Values")
     plt.ylabel("Predicted Values")
     plt.legend()
-    plt.grid()
+    plt.grid(True)
     plt.show()
 
     # Calculate and print coverage score
@@ -113,5 +113,5 @@ def plot_learning_curve(pipeline, X, y, colors: list[str]):
     plt.xlabel("Training Size")
     plt.ylabel("R^2 Score")
     plt.legend()
-    plt.grid()
+    plt.grid(True)
     plt.show()

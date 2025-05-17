@@ -12,7 +12,7 @@ if __name__ == "__main__":
     df = df[df.unique_id == 1].loc[:, ["ds", "y"]].set_index("ds")
 
     model = SARIMAX(
-        endog=df["y"], order=(3, 1, 1), seasonal_order=(1, 1, 1, 12), freq="ME"
+        endog=df["y"], order=(3, 1, 1), seasonal_order=(1, 1, 1, 12), freq="M"
     )
 
     fitted = model.fit()
@@ -26,6 +26,6 @@ if __name__ == "__main__":
     plt.plot(df.index, df.y, label="Actual", color=colors[0])
     plt.plot(preds.index, preds, label="Predicted", color=colors[1])
     plt.legend()
-    plt.grid()
+    plt.grid(True)
     plt.title("AirPassengers ARIMA forecast")
     plt.show()

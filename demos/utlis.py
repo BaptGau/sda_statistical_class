@@ -49,7 +49,7 @@ def plot_data(
         plt.title("Target vs features")
 
     plt.legend()
-    plt.grid()
+    plt.grid(True)
     plt.show()
 
 

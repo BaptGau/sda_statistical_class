@@ -46,7 +46,7 @@ def plot_statsmodels_predictions_intervals(
     )
 
     plt.legend()
-    plt.grid()
+    plt.grid(True)
     plt.title(
         "Prévision ponctuelle et intervalles de confiance (Statsmodels)",
         fontweight="bold",
@@ -90,7 +90,7 @@ def plot_statsforecast_predictions_intervals(
     )
 
     plt.legend()
-    plt.grid()
+    plt.grid(True)
     plt.title(
         "Prévision ponctuelle et intervalles de confiance (Statsforecast)",
         fontweight="bold",

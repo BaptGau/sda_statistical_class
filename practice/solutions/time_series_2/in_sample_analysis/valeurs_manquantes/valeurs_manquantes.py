@@ -28,7 +28,7 @@ def plot_serie(
         s=20,
     )
     plt.legend()
-    plt.grid()
+    plt.grid(True)
     plt.title("Série temporelle avec valeurs manquantes")
     plt.show()
 

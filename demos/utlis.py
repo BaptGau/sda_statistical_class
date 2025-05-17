@@ -1,6 +1,6 @@
 from enum import Enum
 from functools import lru_cache
-from typing import Optional, Tuple
+from typing import Optional, Tuple, Literal
 
 import numpy as np
 import pandas as pd
@@ -19,7 +19,6 @@ class ProblemType(Enum):
 
 
 def setup_plot():
-    from aquarel import load_theme
     import seaborn as sns
 
     sns.set_theme(style="whitegrid")

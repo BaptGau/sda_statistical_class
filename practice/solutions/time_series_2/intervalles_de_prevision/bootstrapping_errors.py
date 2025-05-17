@@ -77,7 +77,7 @@ def plot_prediction_intervals(
     )
 
     plt.legend()
-    plt.grid()
+    plt.grid(True)
     plt.title(
         "Prévision ponctuelle et intervalles de confiance (boostrapping errors)",
         fontweight="bold",

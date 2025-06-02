@@ -1,9 +1,6 @@
 import numpy as np
 import statsmodels.api as sm
 
-from dataclasses import dataclass
-from typing import Optional
-
 from numpy._typing import ArrayLike
 from scipy.stats import shapiro
 from statsmodels.regression.linear_model import RegressionResults
@@ -12,90 +9,137 @@ from statsmodels.stats.diagnostic import het_goldfeldquandt
 from statsmodels.stats.stattools import durbin_watson
 
 
-class HypothesisCheckerComputer:
+def fit_ols(X: ArrayLike, y: ArrayLike) -> RegressionResults:
+    """
+    Fit an Ordinary Least Squares (OLS) regression model.
 
-    @staticmethod
-    def fit_ols(X: ArrayLike, y: ArrayLike) -> RegressionResults:
-        X = sm.add_constant(X)  # Adds the intercept term without altering column names
-        return sm.OLS(y, X).fit()
+    Parameters:
+        X (ArrayLike): Feature matrix.
+        y (ArrayLike): Target vector.
 
-    def __init__(self, X: ArrayLike, y: ArrayLike, model: Optional[RegressionResults]):
-        self.X = X
-        self.y = y
-        if model:
-            self.model = model
-        else:
-            self.fit_ols(X=X, y=y)
-
-        self.residuals = self.model.fittedvalues
-
-    def check_linearity(self) -> bool:
-        return self.model.rsquared > 0
-
-    def check_residuals_homoscedasticity(self) -> bool:
-        _, p_value, _ = het_goldfeldquandt(self.residuals, self.X)
-        return p_value > 0.05
-
-    def check_residuals_normality(self) -> bool:
-        if len(self.X) < 1000:
-            # Use Shapiro-Wilk test
-            _, p_value = shapiro(self.residuals)
-        else:
-            # Use Lilliefors test (Kolmogorov-Smirnov variant)
-            _, p_value = lilliefors(self.residuals)
-        return p_value > 0.5
-
-    def check_residuals_autocorrelation(self) -> bool:
-        dw_stat = durbin_watson(self.residuals)
-
-        return 1.5 < dw_stat < 2.5
-
-    def check_no_colinearity(self) -> bool:
-        correlation_matrix = np.corrcoef(self.X, rowvar=False)
-        if isinstance(correlation_matrix, float):  # single column
-            return True
-        else:
-            coef_to_check = correlation_matrix[
-                np.triu_indices_from(correlation_matrix, k=0)
-            ]
-
-            threshold = 0.8
-
-            no_colinearity = all([corr < threshold for corr in coef_to_check.flat])
-        return no_colinearity
+    Returns:
+        RegressionResults: Fitted OLS model.
+    """
+    X_const = sm.add_constant(X)
+    return sm.OLS(y, X_const).fit()
 
 
-@dataclass
-class HypothesisChecker:
-    linearity: bool
-    residuals_normality: bool
-    residuals_homoscedasticity: bool
-    residuals_no_autocorrelation: bool
-    features_no_multicolinearity: bool
+def check_linearity(model: RegressionResults) -> bool:
+    """
+    Check linearity assumption based on R-squared.
 
-    @staticmethod
-    def __from_given_input__(
-        X: ArrayLike, y: ArrayLike, model: RegressionResults
-    ) -> "HypothesisChecker":
+    Parameters:
+        model (RegressionResults): Fitted regression model.
 
-        hypothesis_checker = HypothesisCheckerComputer(X=X, y=y, model=model)
+    Returns:
+        bool: True if R-squared > 0, indicating some linear relationship.
+    """
+    return model.rsquared > 0
 
-        return HypothesisChecker(
-            linearity=hypothesis_checker.check_linearity(),
-            residuals_normality=hypothesis_checker.check_residuals_normality(),
-            residuals_homoscedasticity=hypothesis_checker.check_residuals_normality(),
-            residuals_no_autocorrelation=hypothesis_checker.check_residuals_autocorrelation(),
-            features_no_multicolinearity=hypothesis_checker.check_no_colinearity(),
-        )
 
-    def __to_string__(self):
-        return f"""--- Hypothesis check report ---
-- Linearity: {self.linearity}
-- Normality of the residuals: {self.residuals_normality}
-- Homoscedasticity of the residuals: {self.residuals_homoscedasticity}
-- No autocorrelation of the residuals: {self.residuals_no_autocorrelation}
-- No multicolinearity in the features: {self.features_no_multicolinearity}
+def check_residuals_homoscedasticity(residuals: ArrayLike, X: ArrayLike) -> bool:
+    """
+    Test for homoscedasticity using the Goldfeld-Quandt test.
+
+    Parameters:
+        residuals (ArrayLike): Model residuals.
+        X (ArrayLike): Feature matrix.
+
+    Returns:
+        bool: True if residuals have constant variance (p > 0.05).
+    """
+    _, p_value, _ = het_goldfeldquandt(residuals, X)
+    return p_value > 0.05
+
+
+def check_residuals_normality(residuals: ArrayLike, n_samples: int) -> bool:
+    """
+    Test for normality of residuals using Shapiro-Wilk or Lilliefors test.
+
+    Parameters:
+        residuals (ArrayLike): Model residuals.
+        n_samples (int): Number of observations.
+
+    Returns:
+        bool: True if residuals are normally distributed (p > 0.5).
+    """
+    if n_samples < 1000:
+        _, p_value = shapiro(residuals)
+    else:
+        _, p_value = lilliefors(residuals)
+    return p_value > 0.5
+
+
+def check_residuals_autocorrelation(residuals: ArrayLike) -> bool:
+    """
+    Test for autocorrelation in residuals using the Durbin-Watson statistic.
+
+    Parameters:
+        residuals (ArrayLike): Model residuals.
+
+    Returns:
+        bool: True if Durbin-Watson statistic is between 1.5 and 2.5.
+    """
+    dw_stat = durbin_watson(residuals)
+    return 1.5 < dw_stat < 2.5
+
+
+def check_no_colinearity(X: ArrayLike) -> bool:
+    """
+    Check for multicollinearity among features using correlation threshold.
+
+    Parameters:
+        X (ArrayLike): Feature matrix.
+
+    Returns:
+        bool: True if no feature pair has absolute correlation >= 0.8.
+    """
+    correlation_matrix = np.corrcoef(X, rowvar=False)
+    if correlation_matrix.ndim == 0:
+        return True
+
+    coef_to_check = correlation_matrix[np.triu_indices_from(correlation_matrix, k=1)]
+    return np.all(np.abs(coef_to_check) < 0.8)
+
+
+def check_all_hypotheses(X: ArrayLike, y: ArrayLike, model: RegressionResults) -> dict:
+    """
+    Run a full diagnostic check of linear regression assumptions.
+
+    Parameters:
+        X (ArrayLike): Feature matrix.
+        y (ArrayLike): Target vector.
+        model (RegressionResults): Fitted regression model.
+
+    Returns:
+        dict: Dictionary of hypothesis check results.
+    """
+    residuals = model.resid
+    n_samples = len(y)
+
+    return {
+        "linearity": check_linearity(model),
+        "residuals_normality": check_residuals_normality(residuals, n_samples),
+        "residuals_homoscedasticity": check_residuals_homoscedasticity(residuals, X),
+        "residuals_no_autocorrelation": check_residuals_autocorrelation(residuals),
+        "features_no_multicolinearity": check_no_colinearity(X),
+    }
+
+
+def format_check_report(hypothesis_results: dict) -> str:
+    """
+    Format the results of hypothesis checks into a readable report.
+
+    Parameters:
+        hypothesis_results (dict): Dictionary of boolean hypothesis results.
+
+    Returns:
+        str: Formatted report string.
+    """
+    return f"""--- Hypothesis check report ---
+- Linearity: {hypothesis_results["linearity"]}
+- Normality of the residuals: {hypothesis_results["residuals_normality"]}
+- Homoscedasticity of the residuals: {hypothesis_results["residuals_homoscedasticity"]}
+- No autocorrelation of the residuals: {hypothesis_results["residuals_no_autocorrelation"]}
+- No multicolinearity in the features: {hypothesis_results["features_no_multicolinearity"]}
 """
-
-    def get_check_report(self) -> str:
-        return self.__to_string__()

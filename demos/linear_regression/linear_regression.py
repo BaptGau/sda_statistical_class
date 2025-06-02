@@ -1,6 +1,6 @@
 import statsmodels.api as sm
 
-from artefacts.linear_regression.hypothesis_checker import HypothesisChecker
+from artefacts.linear_regression.hypothesis_checker import check_all_hypotheses, format_check_report
 from demos.utlis import setup_plot, get_data, plot_data, ProblemType
 
 if __name__ == "__main__":
@@ -23,6 +23,6 @@ if __name__ == "__main__":
 
     plot_data(X=X, y=y, colors=colors, preds=preds)
 
-    hypothesis_check = HypothesisChecker.__from_given_input__(X=X, y=y, model=model)
+    results = check_all_hypotheses(X=X, y=y, model=model)
 
-    print(hypothesis_check.get_check_report())
+    print(format_check_report(hypothesis_results=results))

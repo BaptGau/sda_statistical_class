@@ -22,6 +22,7 @@ class InterfaceStatsTest(ABC):
         X: ArrayLike,
         y: Optional[ArrayLike] = None,
         threshold: float = 0.5,
+        *args,
         **kwargs
     ) -> "InterfaceStatsTest":
         pass

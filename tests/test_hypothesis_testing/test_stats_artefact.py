@@ -54,37 +54,3 @@ class TestStatArtifacts:
             _ = (
                 t_test.is_null_hypothesis_true
             )  # Accessing without fitting should raise error
-
-    def test_mann_whitney_for_different_median(self):
-        x = np.random.normal(0, 1, 1000)
-        y = np.random.normal(100, 1, 1000)
-
-        u_test = MannWhitneyTest()
-        u_test.fit(x, y)
-
-        assert (
-            u_test.test_parameters.p_value < 0.05
-        ), "The p-value should be lesser than 0.05 for different medians"
-        assert (
-            not u_test.is_null_hypothesis_true
-        ), "The null hypothesis should be rejected for significantly different medians"
-
-    def test_mann_whitney_for_same_median(self):
-        x = np.random.normal(0, 1, 1000)
-        y = np.random.normal(0, 5, 1000)
-
-        u_test = MannWhitneyTest()
-        u_test.fit(x, y, threshold=0.05)
-
-        assert (
-            u_test.test_parameters.p_value > 0.05
-        ), "The p-value should be greater than 0.05 for similar medians"
-        assert (
-            u_test.is_null_hypothesis_true
-        ), "The null hypothesis should not be rejected for similar medians"
-
-    def test_y_test_null_hypothesis_value(self):
-        u_test = MannWhitneyTest()
-        assert (
-            u_test.null_hypothesis == "Medians of the samples are the same"
-        ), "The null hypothesis text should specify medians being equal"

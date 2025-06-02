@@ -1,7 +1,7 @@
 import statsmodels.api as sm
 
 from artefacts.logistic_regression.binary_classifier_evaluator import (
-    BinaryClassifierEvaluator,
+    evaluate_binary_classifier,
 )
 from demos.utlis import setup_plot, get_data, ProblemType, plot_classification
 
@@ -23,7 +23,7 @@ if __name__ == "__main__":
     plot_classification(X=X, y=y, colors=colors, clf=model)
 
     # evaluation
-    BinaryClassifierEvaluator().evaluate_classifier(
+    evaluate_binary_classifier(
         y_true=y, y_score=probabilistic_preds, colors=colors
     )
 

@@ -26,12 +26,12 @@ def setup_plot():
     return ["#004aad", "#2bb4d4", "#2e2e2e", "#5ce1e6"]
 
 
-def get_data(type: ProblemType):
+def get_data(type: ProblemType, n_features: int = 1) -> Tuple[ArrayLike, ArrayLike]:
     if type == ProblemType.REGRESSION:
-        return make_regression(n_samples=200, n_features=1, bias=4, noise=20.0)
+        return make_regression(n_samples=200, n_features=n_features, bias=4, noise=20.0)
     else:
         return make_classification(
-            n_samples=200, n_features=2, n_informative=2, n_redundant=0, random_state=42
+            n_samples=200, n_features=n_features, n_informative=2, n_redundant=0, random_state=42
         )
 
 

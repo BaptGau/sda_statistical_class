@@ -34,6 +34,6 @@ if __name__ == "__main__":
     y = np.random.normal(0, 5, 100)
     plot_samples(x=x, y=y, colors=colors)
 
-    test_statistic, p_value = ttest_ind(x, y)
+    test_statistic, p_value = ttest_ind(x, y, equal_var=False)
 
     print(f"Test statistic: {test_statistic} | P-value: {p_value}")

@@ -29,5 +29,5 @@ if __name__ == "__main__":
     QuantitativeAnalysis.print_describe(data=quantitative_data)
 
     # pairplots
-    pairplots_on_features(features=quantitative_data, y=y, colors=colors)
+    # pairplots_on_features(features=quantitative_data, y=y, colors=colors)
     # we can see some interesting linear separability between the features

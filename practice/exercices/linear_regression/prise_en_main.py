@@ -6,3 +6,4 @@ if __name__ == "__main__":
 
     X, y = get_data(type=ProblemType.REGRESSION, n_features=5)
     # todo : Fit the linear regression on this, and anaylze the results
+    print(X)

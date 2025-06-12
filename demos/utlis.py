@@ -30,6 +30,9 @@ def get_data(type: ProblemType, n_features: int = 1) -> Tuple[ArrayLike, ArrayLi
     if type == ProblemType.REGRESSION:
         return make_regression(n_samples=200, n_features=n_features, bias=4, noise=20.0)
     else:
+
+        n_features = max(n_features, 2)  # Ensure at least 2 features for classification
+
         return make_classification(
             n_samples=200, n_features=n_features, n_informative=2, n_redundant=0, random_state=42
         )

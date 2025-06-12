@@ -14,7 +14,8 @@ if __name__ == "__main__":
 
     # fit linear regression
     modified_X = sm.add_constant(data=X)  # Add constant to estimate the intercept
-    model = sm.Logit(y, modified_X).fit()
+    model = sm.Logit(y, modified_X)
+    model = model.fit()
 
     probabilistic_preds = model.predict(modified_X)
 
@@ -34,7 +35,3 @@ if __name__ == "__main__":
     #
     # model = model.fit(X, y)
     # y_score = model.predict_proba(X)[:, 1]
-    #
-    # BinaryClassifierEvaluator().evaluate_classifier(
-    #     y_true=y, y_score=y_score, colors=colors
-    # )

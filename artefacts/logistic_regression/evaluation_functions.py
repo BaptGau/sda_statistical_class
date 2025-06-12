@@ -6,7 +6,7 @@ from sklearn.calibration import calibration_curve
 
 
 def plot_confusion_matrix(
-    y_true: ArrayLike, y_pred: ArrayLike, colors: list[str]
+    y_true: ArrayLike, y_pred: ArrayLike
 ) -> None:
     """
     Trace une matrice de confusion en utilisant les valeurs réelles et prédites.
@@ -17,8 +17,6 @@ def plot_confusion_matrix(
         Les étiquettes réelles des classes.
     y_pred : ArrayLike
         Les étiquettes prédites par le modèle.
-    colors : list[str]
-        Liste de couleurs pour personnaliser la colormap de la matrice.
 
     Affichage :
     -----------
@@ -41,7 +39,7 @@ def plot_confusion_matrix(
     ]
     labels = np.asarray(labels).reshape(2, 2)
     plt.figure(figsize=(12, 8))
-    sns.heatmap(cf_matrix, annot=labels, fmt="", cmap=ListedColormap(colors=colors))
+    sns.heatmap(cf_matrix, annot=labels, fmt="", cmap="mako")
     plt.xlabel("Valeurs prédites")
     plt.ylabel("Vraies valeurs")
     plt.title("Matrice de confusion", fontweight="bold")

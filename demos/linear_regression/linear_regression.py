@@ -12,7 +12,8 @@ if __name__ == "__main__":
 
     # fit linear regression
     modified_X = sm.add_constant(data=X)  # Add constant to estimate the intercept
-    model = sm.OLS(endog=y, exog=modified_X).fit()
+    model = sm.OLS(endog=y, exog=modified_X)
+    model = model.fit()
 
     # print results summary
     print(model.summary())
@@ -26,3 +27,8 @@ if __name__ == "__main__":
     results = check_all_hypotheses(X=X, y=y, model=model)
 
     print(format_check_report(hypothesis_results=results))
+
+
+# B0*1 + B1 * X1 + B2 * X2 + ... + Bn * Xn
+# sum(Bi * Xi) + B0 pour i allant de 1 à m
+# sum(Bi * Xi) pour i allant de 0 à m avec X0 = 1 (intercept)

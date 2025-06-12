@@ -6,7 +6,7 @@ from matplotlib import pyplot as plt
 from pandas import DataFrame
 from statsmodels.regression.linear_model import RegressionResults
 
-from artefacts.linear_regression.hypothesis_checker import HypothesisChecker
+from artefacts.linear_regression.hypothesis_checker import check_all_hypotheses, format_check_report
 from demos.utlis import setup_plot
 from practice.solutions.linear_regression.mpg_regression.analyse_exploratoire import (
     QuantitativeAnalysis,
@@ -126,8 +126,8 @@ if __name__ == "__main__":
     print(model.summary())
 
     # tests hypothesis through tests
-    hypothesis_checker = HypothesisChecker.__from_given_input__(X=X, y=y, model=model)
-    print(hypothesis_checker.get_check_report())
+    hypothesis_check = check_all_hypotheses(X=X, y=y, model=model)
+    print(format_check_report(hypothesis_results=hypothesis_check))
 
     non_significant_features = model.pvalues[model.pvalues > 0.05].index
 

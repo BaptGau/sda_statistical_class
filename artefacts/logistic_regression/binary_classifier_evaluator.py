@@ -42,7 +42,7 @@ def evaluate_binary_classifier(
     if print_metrics:
         print_binary_classification_metrics(y_true=y_true, y_pred=y_pred)
     if show_confusion_matrix:
-        plot_confusion_matrix(y_true=y_true, y_pred=y_pred, colors=colors)
+        plot_confusion_matrix(y_true=y_true, y_pred=y_pred)
     if show_roc_curve:
         plot_roc_curve(y_true=y_true, y_score=y_score, colors=colors)
     if show_calibration_curve:

@@ -1,8 +1,6 @@
 import statsmodels.api as sm
 
-from artefacts.logistic_regression.binary_classifier_evaluator import (
-    BinaryClassifierEvaluator,
-)
+from artefacts.logistic_regression.binary_classifier_evaluator import evaluate_binary_classifier
 from demos.utlis import setup_plot
 from practice.solutions.logistic_regression.breast_cancer.preprocessing import (
     preprocess_data,
@@ -26,6 +24,6 @@ if __name__ == "__main__":
     target_vector = y.loc[:, TARGET_NAME].values
 
     # evaluation
-    BinaryClassifierEvaluator().evaluate_classifier(
+    evaluate_binary_classifier(
         y_true=target_vector, y_score=probabilistic_preds, colors=colors
     )

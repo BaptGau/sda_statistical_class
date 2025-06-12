@@ -6,7 +6,10 @@ from matplotlib import pyplot as plt
 from pandas import DataFrame
 from statsmodels.regression.linear_model import RegressionResults
 
-from artefacts.linear_regression.hypothesis_checker import check_all_hypotheses, format_check_report
+from artefacts.linear_regression.hypothesis_checker import (
+    check_all_hypotheses,
+    format_check_report,
+)
 from demos.utlis import setup_plot
 from practice.solutions.linear_regression.mpg_regression.analyse_exploratoire import (
     QuantitativeAnalysis,
@@ -38,12 +41,12 @@ def plot_residuals_density(residuals: DataFrame, colors: list):
 
 
 def plot_homoscedasticity(residuals: DataFrame, preds: DataFrame, colors: list[str]):
-    import statsmodels.stats.api as sms
-    from statsmodels.compat import lzip
-
-    name = ["F statistic", "p-value"]
-    test = sms.het_goldfeldquandt(residuals, X)
-    stat, p = lzip(name, test)[1]
+    # import statsmodels.stats.api as sms
+    # from statsmodels.compat import lzip
+    #
+    # name = ["F statistic", "p-value"]
+    # test = sms.het_goldfeldquandt(residuals, preds)
+    # stat, p = lzip(name, test)[1]
 
     plt.figure(figsize=(12, 8))
     plt.scatter(preds, residuals, color=colors[1], alpha=0.8)
@@ -51,7 +54,7 @@ def plot_homoscedasticity(residuals: DataFrame, preds: DataFrame, colors: list[s
     plt.ylabel("Résidus")
     plt.axhline(0, color=colors[0], linestyle="--")
     plt.title(
-        f"Résidus vs. valeurs prédites - Gold-Felquant p-value: {p:.2f}",
+        f"Résidus vs. valeurs prédites",
         fontweight="bold",
     )
     plt.show()

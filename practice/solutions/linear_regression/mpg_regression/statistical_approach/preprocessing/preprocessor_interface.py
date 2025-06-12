@@ -4,9 +4,6 @@ from pandas import DataFrame
 
 
 class PreprocessorInterface(ABC):
-    def __init__(self):
-        pass
-
     @abstractmethod
     def fit(self, X: DataFrame, **kwargs) -> "PreprocessorInterface":
         pass
